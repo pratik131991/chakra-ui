@@ -1,0 +1,49 @@
+import React from "react";
+import ReactPlayer from "react-player";
+import { useState } from "react";
+
+const movies = [
+  { id: 1, title: "Movie 1", thumbnail: "/movie1.jpg", url: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" },
+  { id: 2, title: "Movie 2", thumbnail: "/movie2.jpg", url: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" },
+];
+
+export default function Home() {
+  const [selectedMovie, setSelectedMovie] = useState(null);
+
+  return (
+    <div className="bg-black text-white min-h-screen p-4">
+      <h1 className="text-3xl font-bold text-center mb-4">My Streaming App</h1>
+      
+      {selectedMovie ? (
+        <div className="max-w-3xl mx-auto">
+          <ReactPlayer url={selectedMovie.url} controls playing width="100%" />
+          <button
+            onClick={() => setSelectedMovie(null)}
+            className="mt-4 px-4 py-2 bg-red-500 rounded text-white"
+          >
+            Back to Movies
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {movies.map((movie) => (
+            <div
+              key={movie.id}
+              className="cursor-pointer"
+              onClick={() => setSelectedMovie(movie)}
+            >
+              <div className="aspect-w-16 aspect-h-9">
+                <img
+                  src={movie.thumbnail}
+                  alt={movie.title}
+                  className="rounded-md"
+                />
+              </div>
+              <p className="mt-2 text-center">{movie.title}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
